@@ -1,41 +1,69 @@
-import blackLogo from '../images/blackLogo.png';
-import whiteLogo from '../images/whiteLogo.png';
-import { ThemeContext } from '../context/Theme';
-import { useContext } from 'react';
-import { FiSearch } from 'react-icons/fi';
+import {useContext, useEffect, useRef, useState} from 'react'
+import { ThemeContext } from '../context/Theme'
+import { IoMdArrowForward } from "react-icons/io";  
+import { prompts } from '../data/prompts'; 
+import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
-const Home = () => {
-    // Get the current theme from the context
-    const { theme } = useContext(ThemeContext);
 
-    return (
-        <div className="flex flex-col items-center gap-y-4">
-            {/* Display logo based on the current theme */}
-            <img 
-                src={theme === 'light' ? whiteLogo : blackLogo} 
-                className="w-40 md:w-64" 
-                alt="Logo"
-            />
+function Home() {
+    const {theme} = useContext(ThemeContext)
+    const textInputRef = useRef<HTMLTextAreaElement>(null) 
+    const navigate = useNavigate()
+    const [search, setSearch] = useState('') 
+  
+   
+    
+    useEffect(() => {
+     textInputRef.current?.focus()
+    }, [])
 
-            {/* Header text */}
-            <h1 className="text-lg font-semibold text-center">
-                The search engine that prioritizes your privacy and values you as a user.
-            </h1>
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setSearch(e.target.value);
+    };
+    
 
-            {/* Search input field */}
-            <div className="w-full mx-auto md:max-w-lg lg:max-w-xl relative">
-                <input
-                    placeholder="Search"
-                    className={`p-2 py-3 placeholder:text-lg rounded-lg w-full mt-4 ${
-                        theme === 'light' ? 'bg-gray-200 outline-none' : 'bg-[#3C4148] outline-none'
-                    }`}
-                />
-                <span className="absolute right-4 bottom-3.5">
-                    <FiSearch size={25} />
-                </span>
-            </div>
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        
+        if (!search.trim()) {
+            toast.error('Please provide text');
+            return;
+        }
+
+        if(search.length <= 4) {
+          toast.error('Query too short. Minimum 5 characters.') 
+          return
+        }
+        navigate(`/search/${search}`);
+    };
+
+  return (
+    <div className="mt-10 lg:mt-16">
+        {/* search textarea  */}
+        <div className="flex flex-col items-center gap-y-6">
+        <h1 className="text-2xl  font-bold md:text-3xl lg:text-4xl">The start of enlightenment</h1>
+          <form onSubmit={handleSubmit} className="w-full md:max-w-xl lg:max-w-3xl relative">
+          <textarea onChange={handleChange}   ref={textInputRef}  placeholder="Ask me anything..." className={`h-32 p-4 placeholder:text-lg  w-full md:max-w-xl lg:max-w-3xl  rounded-md  outline-none ${theme === 'dark' ? 'border-gray-700 border bg-[#202222]' : 'border-2 border-gray-300 bg-[#F7F7F8]'}`}>
+
+          </textarea> 
+            <button type="submit" className={`absolute bottom-4 right-2 ${theme === 'light' ? ' bg-gray-300 p-1.5 rounded-full': 'bg-black  p-1.5 rounded-full'}`}>
+            <IoMdArrowForward size={23}/>
+            </button>
+          </form>
+
+        </div> 
+
+        {/* defaults prompts */} 
+        <div className="mt-4 grid grid-cols-1 gap-2 md:max-w-xl lg:max-w-3xl lg:grid-cols-2 mx-auto">
+            {prompts.map((prompt) => (
+                <div key={prompt.id} className={theme === 'light' ? 'border border-gray-300 p-1.5 rounded-md': 'border border-gray-700 p-1.5 rounded-md'}> 
+                <button onClick={() => navigate(`/search/${prompt.name}`)}>{prompt.name}</button>
+                </div>
+            ))}
         </div>
-    );
-};
+    </div>
+  )
+}
 
-export default Home;
+export default Home
