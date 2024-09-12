@@ -21,7 +21,7 @@ const AppContent = () => {
   const { theme } = useContext(ThemeContext)
 
   return (
-    <div className={theme === 'light' ? 'bg-white text-[#282B2F] w-full h-screen' : 'bg-[#191A1A] text-white w-full h-screen'}>
+    <div className={theme === 'light' ? 'bg-white text-[#282B2F] w-full h-screen' : 'bg-[#191A1A] text-white w-full min-h-screen'}>
       <Router>
         <Navbar />
         <div className="mx-4 lg:mx-11 md:mx-8">
