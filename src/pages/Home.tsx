@@ -47,7 +47,7 @@ function Home() {
           <textarea onChange={handleChange}   ref={textInputRef}  placeholder="Ask me anything..." className={`h-32 p-4 placeholder:text-lg  w-full md:max-w-xl lg:max-w-3xl  rounded-md  outline-none ${theme === 'dark' ? 'border-gray-700 border bg-[#202222]' : 'border-2 border-gray-300 bg-[#F7F7F8]'}`}>
 
           </textarea> 
-            <button type="submit" className={`absolute bottom-4 right-2 ${theme === 'light' ? ' bg-gray-300 p-1.5 rounded-full': 'bg-black  p-1.5 rounded-full'}`}>
+            <button type="submit" className={`absolute bottom-4 right-2 ${theme === 'light' ? 'bg-[#0E9272] text-white p-1.5 rounded-full': 'bg-[#0E9272] text-white  p-1.5 rounded-full'}`}>
             <IoMdArrowForward size={23}/>
             </button>
           </form>

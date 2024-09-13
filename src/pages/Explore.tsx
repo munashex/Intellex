@@ -12,14 +12,20 @@ interface NewsTypes {
   source: { name: string; url: string };
 }
 
+type CategoryTypes = 'technology' | 'entertainment' | 'sports' 
+
 const Explore = () => {
   const [news, setNews] = useState<NewsTypes[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext); 
+  const [tabs, setTabs] = useState<CategoryTypes>('technology')
 
-  const category = 'technology';
+  const tabsName = [{name: 'technology'}, {name: 'entertainment'}, 
+                    {name: "sports"} 
+                   ]
+  
   const apikey = import.meta.env.VITE_NEWS;
-  const apiUrl = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&country=us&max=10&apikey=${apikey}`;
+  const apiUrl = `https://gnews.io/api/v4/top-headlines?category=${tabs}&lang=en&country=us&max=10&apikey=${apikey}`;
 
   const getNews = async () => {
     try {
@@ -35,13 +41,34 @@ const Explore = () => {
 
   useEffect(() => {
     getNews();
-  }, []);
+  }, [tabs]);
 
   return (
     <div className="py-12 md:max-w-xl lg:max-w-2xl mx-auto pb-12">
       <div className="text-xl font-bold md:text-2xl lg:text-3xl inline-flex items-center gap-3 mb-6">
         <TbWorldHeart size={30} />
         <h1 className="text-xl md:text-2xl font-semibold">Explore</h1>
+      </div>
+        
+      {/* tabs with horizontal scroll */}
+      <div className="overflow-x-auto mb-6">
+        <div className="flex space-x-4 min-w-max">
+          {tabsName.map((tab) => (
+            <button
+              key={tab.name}
+              onClick={() => setTabs(tab.name as CategoryTypes)}
+              className={`px-4 py-1  whitespace-nowrap ${
+                tabs === tab.name
+                  ? 'bg-[#0E9272] hover:bg-[#125d4a] text-white'
+                  : theme === 'dark'
+                  ? 'bg-[#202222] text-white'
+                  : 'bg-[#E5E7EB] text-black'
+              }`}
+            >
+              {tab.name}
+            </button>
+          ))}
+        </div>
       </div>
 
       {loading ? (
@@ -58,12 +85,12 @@ const Explore = () => {
         <div className="space-y-6">
           {news?.map((info) => (
             <div key={info.title} className={`${theme === 'dark' ? 'bg-[#202222]' : 'bg-[#E5E7EB]'} rounded-lg overflow-hidden shadow-md`}>
-              <img src={info.image} alt={info.title} className="w-full h-48 object-cover" />
+              <img src={info.image} alt={info.title} className="w-full h-48 lg:h-56 object-cover" />
               <div className="p-4 space-y-2">
                 <h2 className="font-semibold text-lg">{info.title}</h2>
                 <p className="text-sm">{info.description.slice(0, 120)}...</p>
                 <div className="flex justify-between items-center pt-2">
-                  <a href={info.source.url} className="text-blue-600 hover:underline text-sm">
+                  <a href={info.source.url} className="text-[#0E9272] underline underline-offset-2 font-bold hover:underline text-sm">
                     {info.source.name}
                   </a>
                   <a href={info.url} className="text-sm font-medium hover:underline">

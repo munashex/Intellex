@@ -61,6 +61,7 @@ const NavLinks: React.FC<NavProps> = ({ onClick }) => {
             {navItems.map(({ path, icon: Icon, label }) => (
                 <Link 
                     key={path}
+                    onClick={onClick}
                     to={path} 
                     className={`p-3 flex items-center gap-x-3 mt-3 ${isActive(path)}`}
                 >
@@ -68,6 +69,10 @@ const NavLinks: React.FC<NavProps> = ({ onClick }) => {
                     <h1 className="text-lg">{label}</h1>
                 </Link>
             ))}
+
+            <div className="mt-9 p-3"> 
+                <Link to="/signup" onClick={onClick} className="bg-[#0E9272] py-3 px-16 text-lg rounded-md text-white">Sign up</Link>
+            </div>
         </div>
     );
 };

@@ -7,7 +7,10 @@ import { ThemeContext } from './context/Theme'
 import Search from './pages/Search' 
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Explore from './pages/Explore'
+import Explore from './pages/Explore' 
+import NotFound from './pages/NotFound' 
+import SignIn from './pages/SignIn' 
+import SignUp from './pages/SignUp'
 
 const App = () => {
   return (
@@ -29,7 +32,10 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Home />} /> 
           <Route path="/search/:id" element={<Search/>}/>
-          <Route path="/explore" element={<Explore/>}/>
+          <Route path="/explore" element={<Explore/>}/> 
+          <Route path="*" element={<NotFound/>}/> 
+          <Route path="/signin" element={<SignIn/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
         </Routes>
         </div>
       </Router>
