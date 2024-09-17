@@ -8,7 +8,7 @@ const NotFound = () => {
      navigate('/')
     }, []) 
 
-    return null
+    return  null
 }
 
 export default NotFound
