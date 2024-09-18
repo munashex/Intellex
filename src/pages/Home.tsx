@@ -44,7 +44,8 @@ function Home() {
         <div className="flex flex-col items-center gap-y-6">
         <h1 className="text-2xl  font-bold md:text-3xl lg:text-4xl">The start of enlightenment</h1>
           <form onSubmit={handleSubmit} className="w-full md:max-w-xl lg:max-w-3xl relative">
-          <textarea onChange={handleChange}   ref={textInputRef}  placeholder="Ask me anything..." className={`h-32 p-4 placeholder:text-lg  w-full md:max-w-xl lg:max-w-3xl  rounded-md  outline-none ${theme === 'dark' ? 'border-gray-700 border bg-[#202222]' : 'border-2 border-gray-300 bg-[#F7F7F8]'}`}>
+          <textarea onChange={handleChange}   ref={textInputRef}  placeholder="Ask me anything..." 
+          className={`h-32 p-4 placeholder:text-lg  w-full md:max-w-xl lg:max-w-3xl  rounded-md  outline-none ${theme === 'dark' ? 'border-gray-700 border bg-[#202222]' : 'border-2 border-gray-300 bg-[#F7F7F8]'}`}>
 
           </textarea> 
             <button type="submit" className={`absolute bottom-4 right-2 ${theme === 'light' ? 'bg-[#0E9272] text-white p-1.5 rounded-full': 'bg-[#0E9272] text-white  p-1.5 rounded-full'}`}>

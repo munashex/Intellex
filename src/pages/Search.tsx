@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import axios from 'axios';
-import { toast } from "react-toastify";
 import { SearchTypes } from "../types/SearchTypes";
 import { CiSearch } from "react-icons/ci";
 import { BsBookmarkCheck } from "react-icons/bs";
@@ -9,14 +8,17 @@ import { VscLibrary } from "react-icons/vsc";
 import { ThemeContext } from "../context/Theme";
 import { BsPlusLg } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { db, auth } from "../config/firebase";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 
 const Search = () => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<SearchTypes>();
   const { id } = useParams<{ id: string }>();
-  const { theme } = useContext(ThemeContext); 
-  const  navigate = useNavigate()
+  const { theme } = useContext(ThemeContext);  
+  const navigate = useNavigate();
 
+  // Function to fetch search results from the API and save to Firestore
   const fetchSearchResults = async () => {
     try {
       setLoading(true);
@@ -31,14 +33,57 @@ const Search = () => {
         include_domains: [],
         exclude_domains: []
       });
+      
       setResults(response.data);
+      await saveAnswers(response.data);  // Save answers after fetching
     } catch (error) {
-      toast.error("Something went wrong");
+      console.error('Error fetching or saving results:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  // Function to save the search results into Firestore
+  const saveAnswers = async (data: SearchTypes) => {
+    try {
+      if (!auth.currentUser) {
+        return;
+      }
+
+      const userId = auth.currentUser.uid;
+
+      // Check if a prompt with the same query already exists for this user
+      const querySnapshot = await getDocs(query(
+        collection(db, "prompts"),
+        where("userId", "==", userId),
+        where("query", "==", data.query)
+      ));
+
+      if (!querySnapshot.empty) {
+        return;
+      }
+
+      const resultsArray = data.results.map(result => ({
+        title: result.title,
+        url: result.url,
+        content: result.content,
+      }));
+
+      await addDoc(collection(db, "prompts"), {
+        userId,
+        query: data.query, 
+        answer: data.answer, 
+        results: resultsArray,
+        createdAt: serverTimestamp()
+      });
+
+
+    } catch (err) {
+      console.error('Error saving to Firestore:', err);
+    }
+  };
+
+  // Fetch search results when the component mounts or when the ID changes
   useEffect(() => {
     if (id) {
       fetchSearchResults();
@@ -97,15 +142,17 @@ const Search = () => {
         </div>
       )}
 
-      {/* new search */}
+      {/* New search */}
       <div className="fixed bottom-3 right-1/2"> 
-        <div className={theme === 'dark' ? 'p-2.5 px-4 border bg-[#202222] rounded-full' : 'p-2.5 px-4 border bg-[#E5E7EB] rounded-full'}> 
-          <button onClick={() => navigate('/')} className="inline-flex items-center gap-2 font-bold">New <BsPlusLg size={20}/></button>
+        <div className={theme === 'dark' ? 'p-2.5 px-4 border bg-[#202222] rounded-full' : 'p-2.5 px-4 border bg-[#E5E7EB] border-[#4a4d51] rounded-full'}> 
+          <button onClick={() => navigate('/')} className="inline-flex items-center gap-2 font-bold">
+            New <BsPlusLg size={20}/>
+          </button>
         </div>
       </div> 
-
     </div>
   );
 };
 
 export default Search;
+
