@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../context/Theme";
 import { IoClose } from "react-icons/io5";
-import { MdOutlineLightMode, MdOutlineNightlightRound, MdKeyboardArrowDown } from "react-icons/md";
+import { MdOutlineLightMode, MdOutlineNightlightRound} from "react-icons/md";
 import { CiHome } from "react-icons/ci";
 import { MdOutlineTravelExplore } from "react-icons/md";
 import { BiLibrary } from "react-icons/bi";
@@ -11,6 +11,7 @@ import useAuthState from "../hooks/useAuthState";
 import { collection, onSnapshot, where, query, DocumentData } from "firebase/firestore";  
 import { db, auth } from '../config/firebase';
 import { IoIosArrowRoundForward } from "react-icons/io"; 
+import {signOut} from 'firebase/auth'
 
 
 interface NavProps {
@@ -60,13 +61,19 @@ const NavLinks: React.FC<NavProps> = ({ onClick }) => {
         }
     }, []);
 
+ 
+    const Logout = async() => {
+       await signOut(auth)
+    }
+
+
     return (
         <div 
             className={`fixed top-0 z-20 right-0 w-[90%] shadow-lg animate-fade-left md:w-1/2 lg:w-[24%] h-screen md:border-r ${
                 theme === 'dark' ? 'bg-[#202222] text-white' : 'bg-gray-200'
             }`}
         >
-            <div className='flex justify-end p-3'>
+            <div className='flex flex-row justify-end p-3'>
                 <button>
                     <IoClose size={33} onClick={onClick} />
                 </button>
@@ -161,12 +168,13 @@ const NavLinks: React.FC<NavProps> = ({ onClick }) => {
 
            {user ? 
            (
-            <div className="absolute bottom-5 p-3"> 
-             <button className={`inline-flex items-center gap-x-1.5 p-2 rounded-lg ${theme === 'dark' ? 'bg-[#191A1A] border border-[#495555]' : 'bg-[#F7F7F8] border border-[#121215]'}`}>
-                <span className="bg-[#0E9272] py-1 px-2 font-bold text-white rounded-full">{user.email?.at(0)?.toUpperCase()}</span> 
-                <span>{user.email?.split('@')[0]}</span> 
-                <span><MdKeyboardArrowDown size={25}/></span>
+            <div className="absolute bottom-5 p-3 left-0 right-0"> 
+            <div className="flex flex-row items-center justify-between"> 
+            <button onClick={Logout} className={`inline-flex items-center px-6 font-bold rounded-md gap-x-1.5 p-1.5  ${theme === 'dark' ? 'bg-[#191A1A] hover:bg-[#525d5d] border border-[#495555]' : 'bg-[#F7F7F8] border hover:bg-[#d9d9e0] border-[#121215]'}`}>
+             Logout
              </button>
+             <span className="bg-[#0E9272] py-1 px-1 font-bold text-white text-sm">{user.email?.split('@')[0]}</span> 
+            </div>
             </div>
            ) : null}
         </div>
