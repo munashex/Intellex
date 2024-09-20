@@ -10,6 +10,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { IoCheckmarkDoneOutline } from "react-icons/io5"
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import {Link} from 'react-router-dom'
 
 
 interface ChatHistoryTypes {
@@ -186,13 +187,13 @@ function Recents() {
           <p className="text-center text-gray-500 mt-8">Please sign in to view your chat history.</p>
         ) : filteredChats && filteredChats.length > 0 ? (
           filteredChats.map((chat, index) => (
-            <div key={index} className={`flex flex-col gap-y-1 py-3 md:flex-row md:justify-between px-3 border rounded-lg mt-3 ${theme === 'dark' ? 'border-gray-700' : 'border-gray-400'} ${select ? ` border-blue-600 ${theme === 'light' ? 'bg-blue-100' : 'bg-blue-900'}` : ''}`}>
+            <Link to={`/chat/${chat.id}`} key={index} className={`flex flex-col gap-y-1 py-3 md:flex-row md:justify-between px-3 border rounded-lg mt-3 ${theme === 'dark' ? 'border-gray-700' : 'border-gray-400'} ${select ? ` border-blue-600 ${theme === 'light' ? 'bg-blue-100' : 'bg-blue-900'}` : ''}`}>
               <div> 
                 <h2 className="font-semibold truncate">{chat.query.length < 51 ? chat.query : chat.query.slice(0, 48) + '..'}</h2>
                 <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{chat.createdAt.toDate().toLocaleString()}</p>
               </div>
               <button onClick={() => deleteChat(chat.id)}><MdDeleteOutline size={23}/></button>
-            </div>
+            </Link>
           ))
         ) : (
           <p className="text-center mt-8">{chats  && chats.length < 1 ? null : "Not chats found"}</p>

@@ -10,7 +10,8 @@ import { Link, useLocation } from 'react-router-dom';
 import useAuthState from "../hooks/useAuthState";
 import { collection, onSnapshot, where, query, DocumentData } from "firebase/firestore";  
 import { db, auth } from '../config/firebase';
-import { IoIosArrowRoundForward } from "react-icons/io";
+import { IoIosArrowRoundForward } from "react-icons/io"; 
+
 
 interface NavProps {
     onClick: () => void;
@@ -124,7 +125,7 @@ const NavLinks: React.FC<NavProps> = ({ onClick }) => {
                   {/* user query history */}
                  <div className="p-3 -mt-5 flex flex-col gap-0.5"> 
                   {prompts.slice(0, 5).map((prompt) => (
-                    <Link key={prompt.id} to="" className="hover:font-bold">{prompt.query.length  < 39 ? prompt.query : prompt.query.slice(0, 26) + '...'}</Link>
+                    <Link key={prompt.id} to={`/chat/${prompt.id}`} className="hover:font-bold">{prompt.query.length  < 39 ? prompt.query : prompt.query.slice(0, 26) + '...'}</Link>
                   ))}
                   <Link to="/recents" onClick={onClick}>
                   {prompts && prompts.length < 1 ? null : 

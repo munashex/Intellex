@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound'
 import SignIn from './pages/SignIn' 
 import SignUp from './pages/SignUp'
 import Recents from './pages/Recents'
+import Chat from './pages/Chat' 
 
 const App = () => {
   return (
@@ -37,7 +38,8 @@ const AppContent = () => {
           <Route path="*" element={<NotFound/>}/> 
           <Route path="/signin" element={<SignIn/>}/>
           <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/recents" element={<Recents/>}/>
+          <Route path="/recents" element={<Recents/>}/> 
+          <Route path="/chat/:id" element={<Chat/>}/>
         </Routes>
         </div>
       </Router>
