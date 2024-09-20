@@ -47,6 +47,7 @@ const Search = () => {
   const saveAnswers = async (data: SearchTypes) => {
     try {
       if (!auth.currentUser) {
+        console.log("User not authenticated, skipping save");
         return;
       }
 
@@ -59,7 +60,9 @@ const Search = () => {
         where("query", "==", data.query)
       ));
 
+      // If a document with the same query exists, skip saving
       if (!querySnapshot.empty) {
+        console.log("Duplicate query found, skipping save");
         return;
       }
 
@@ -69,6 +72,7 @@ const Search = () => {
         content: result.content,
       }));
 
+      // Add new prompt to Firestore if no duplicate is found
       await addDoc(collection(db, "prompts"), {
         userId,
         query: data.query, 
@@ -77,7 +81,7 @@ const Search = () => {
         createdAt: serverTimestamp()
       });
 
-
+      console.log("New search result saved successfully");
     } catch (err) {
       console.error('Error saving to Firestore:', err);
     }
@@ -155,4 +159,3 @@ const Search = () => {
 };
 
 export default Search;
-

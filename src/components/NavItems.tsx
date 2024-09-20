@@ -126,7 +126,10 @@ const NavLinks: React.FC<NavProps> = ({ onClick }) => {
                   {prompts.slice(0, 5).map((prompt) => (
                     <Link key={prompt.id} to="" className="hover:font-bold">{prompt.query.length  < 39 ? prompt.query : prompt.query.slice(0, 26) + '...'}</Link>
                   ))}
-                  <Link to="/recents" onClick={onClick} className="mt-2  font-bold inline-flex items-center gap-1 underline underline-offset-4">View all <IoIosArrowRoundForward size={22}/></Link>
+                  <Link to="/recents" onClick={onClick}>
+                  {prompts && prompts.length < 1 ? null : 
+                  <h1 className="mt-2  font-bold inline-flex items-center gap-1 underline underline-offset-4">View all <IoIosArrowRoundForward size={22}/></h1> } 
+                  </Link>
                  </div>
 
                 </div>
