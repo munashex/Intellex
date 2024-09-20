@@ -11,6 +11,7 @@ import Explore from './pages/Explore'
 import NotFound from './pages/NotFound' 
 import SignIn from './pages/SignIn' 
 import SignUp from './pages/SignUp'
+import Recents from './pages/Recents'
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const AppContent = () => {
           <Route path="*" element={<NotFound/>}/> 
           <Route path="/signin" element={<SignIn/>}/>
           <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/recents" element={<Recents/>}/>
         </Routes>
         </div>
       </Router>
