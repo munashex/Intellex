@@ -31,7 +31,7 @@ function Home() {
             return;
         }
 
-        if(search.length <= 4) {
+        if(search.length <= 5) {
           toast.error('Query too short. Minimum 5 characters.') 
           return
         }
