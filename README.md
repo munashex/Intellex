@@ -1,50 +1,21 @@
-# React + TypeScript + Vite
+# Intellex
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Intellex Screenshot](https://github.com/munashex/Intellex/blob/main/src/images/Screenshot%202024-11-11%2013.42.04.png)](https://intellex-ten.vercel.app/)
 
-Currently, two official plugins are available:
+**Intellex** is an AI-powered search engine that interprets and responds to complex queries with depth and context. It provides insightful answers and follow-up suggestions, transforming search into an interactive conversation that encourages deeper exploration of topics. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
+- **Contextual Understanding:** Intellex interprets the context behind each query to provide meaningful, insightful answers.
+- **Follow-up Questions:** Enables users to ask follow-up questions easily, enhancing the search experience and allowing for deeper exploration.
+- **User-Centered Design:** A clean, intuitive interface powered by Tailwind CSS, designed for seamless interaction and navigation.
 
-## Expanding the ESLint configuration
+## Technologies Used
+- **Frontend:** TypeScript, React, Tailwind CSS
+- **Backend & API Integration:** Tavily API, Firebase
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Live Demo
+Check out Intellex [here](https://intellex-ten.vercel.app/).
 
-- Configure the top-level `parserOptions` property like this:
+---
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+With its advanced artificial intelligence and user-friendly design, Intellex makes the search process more engaging and accessible. Give it a try and experience the next level of search interaction!
